@@ -1,13 +1,27 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     let baseImageUrl = "https://mailstudio-simonjanvier.s3-eu-west-1.amazonaws.com/static/git-webcam/";
     let images = imageNames.map(imageName => baseImageUrl + imageName);
-    console.log(images);
     let currentIndex = 0;
     let playInterval = null;
     let isLoadingImage = false;
     let slideshowSpeed = 1000;
     let loadedImages = [];
     let imagesLength; // Variable globale pour stocker la longueur de images
+
+    images.forEach(image => {
+        let link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = image;
+        document.head.appendChild(link);
+    });
+
+    loadedImages = images.map(src => {
+        let img = new Image();
+        img.src = src;
+        return img;
+    });
+    imagesLength = images.length;
+
 
     // Point d'ancrage pour tout le contenu généré
     const slideshowContainer = document.getElementById('slideshowContainer');
@@ -68,21 +82,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     setupHtmlElements(); // Appel de la fonction pour structurer le HTML
 
-    function preloadImages(images) {
-        let imageLoadPromises = images.map((url, index) => {
-            return new Promise((resolve, reject) => {
-                let img = new Image();
-                img.onload = () => {
-                    loadedImages[index] = img;
-                    resolve(img);
-                };
-                img.onerror = reject;
-                img.src = url;
-            });
-        });
 
-        return Promise.all(imageLoadPromises);
-    }
 
     function showImage(index) {
         let imageDisplay = document.getElementById('imageDisplay');
@@ -193,7 +193,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
-    preloadImages(images);
 
     document.getElementById('next').addEventListener('click', () => nextImage());
     document.getElementById('prev').addEventListener('click', () => prevImage());
@@ -205,14 +204,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             isDragging = true;
             initialX = event.clientX;
         }
-    });
-
-    preloadImages(images).then(() => {
-        console.log('All images preloaded');
-        imagesLength = images.length; // Initialisation de la variable imagesLength
-        showImage(currentIndex);
-    }).catch(error => {
-        console.error('Error loading images', error);
     });
 
     let isDragging = false;
