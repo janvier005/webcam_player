@@ -1,0 +1,88 @@
+body{
+    border:0;
+    margin:0;
+    padding: 0 10vw;
+    background-image: url('https://media.idownloadblog.com/wp-content/uploads/2020/07/iOS-14-promotional-gradients-ipad-wallpaper-flarezephyr-idownloadblog-1.jpeg');
+    display: flex;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    height: 100vh;
+}
+#imageDisplay img {
+    width: 500px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.controls-container {
+    display: flex;
+    justify-content: space-between;
+    width: 500px;
+    margin: 10px auto 0 auto;
+}
+
+.control-btn, .speed-selector {
+    background-color: rgb(255,255,255,0.2); /* Fond blanc */
+    border: none; /* Bordure discrète */
+    color: #FFFFFF; /* Texte noir */
+    cursor: pointer;
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 10px; /* Bordures arrondies */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    outline: none;
+    width: calc( 20% - 0px);
+
+}
+.speed-selector {
+    width: calc( 30% - 5px);
+}
+
+
+.control-btn:hover, .control-btn:focus, .speed-selector:hover, .speed-selector:focus {
+    background-color: rgb(255,255,255,0.4); /* Léger changement de fond au survol */
+    color: #f7f7f7;
+    /*box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Ombre plus prononcée */
+}
+
+.control-btn:active, .speed-selector:active {
+    background-color: #e6e6e6; /* Fond plus foncé au clic */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre réduite */
+    transform: translateY(2px); /* Effet de pression */
+}
+
+/* CSS pour la timeline */
+#timeline {
+    background-color: rgba(255, 255, 255, 0.1);
+    margin-top: 10px;
+    position: relative;
+    cursor: pointer !important;
+    display:flex;
+    justify-content: space-between;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+#timeline .line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: red;
+    cursor: pointer;
+}
+
+#timeline .preview {
+    position: relative;
+    top: 0;
+    height: 100%;
+    display: block;
+    background-size: cover;
+    cursor: pointer !important;
+}
