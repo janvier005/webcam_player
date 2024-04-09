@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     let baseImageUrl = "https://mailstudio-simonjanvier.s3-eu-west-1.amazonaws.com/static/git-webcam/";
     let images = imageNames.map(imageName => baseImageUrl + imageName);
+    console.log(images);
     let currentIndex = 0;
     let playInterval = null;
     let isLoadingImage = false;
