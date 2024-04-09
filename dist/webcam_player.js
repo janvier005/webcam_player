@@ -8,8 +8,67 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let loadedImages = [];
     let imagesLength; // Variable globale pour stocker la longueur de images
 
-    function preloadImages(imageArray) {
-        let imageLoadPromises = imageArray.map((url, index) => {
+    // Point d'ancrage pour tout le contenu généré
+    const slideshowContainer = document.getElementById('slideshowContainer');
+
+    // Création et ajout dynamique des éléments HTML
+    function setupHtmlElements() {
+        const imageWrapper = document.createElement('div');
+        imageWrapper.id = 'imageWrapper';
+
+        const imageDisplay = document.createElement('div');
+        imageDisplay.id = 'imageDisplay';
+        imageWrapper.appendChild(imageDisplay);
+
+        const loadingIndicator = document.createElement('div');
+        loadingIndicator.id = 'loadingIndicator';
+        loadingIndicator.style.display = 'none';
+        loadingIndicator.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Chargement...';
+        imageWrapper.appendChild(loadingIndicator);
+
+        const timeline = document.createElement('div');
+        timeline.id = 'timeline';
+        imageWrapper.appendChild(timeline);
+
+        const controlsContainer = document.createElement('div');
+        controlsContainer.className = 'controls-container';
+
+        const prevButton = document.createElement('button');
+        prevButton.id = 'prev';
+        prevButton.className = 'control-btn';
+        prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        controlsContainer.appendChild(prevButton);
+
+        const playButton = document.createElement('button');
+        playButton.id = 'play';
+        playButton.className = 'control-btn';
+        playButton.innerHTML = '<i class="fas fa-play"></i>';
+        controlsContainer.appendChild(playButton);
+
+        const nextButton = document.createElement('button');
+        nextButton.id = 'next';
+        nextButton.className = 'control-btn';
+        nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        controlsContainer.appendChild(nextButton);
+
+        const speedSelector = document.createElement('select');
+        speedSelector.id = 'speedSelector';
+        speedSelector.className = 'speed-selector';
+        speedSelector.innerHTML = `
+            <option value="3000">Lent (3s)</option>
+            <option value="1000" selected>Normal (1s)</option>
+            <option value="500">Rapide (0.5s)</option>
+        `;
+        controlsContainer.appendChild(speedSelector);
+
+        slideshowContainer.appendChild(imageWrapper);
+        slideshowContainer.appendChild(controlsContainer);
+    }
+
+    setupHtmlElements(); // Appel de la fonction pour structurer le HTML
+
+    function preloadImages(images) {
+        let imageLoadPromises = images.map((url, index) => {
             return new Promise((resolve, reject) => {
                 let img = new Image();
                 img.onload = () => {
