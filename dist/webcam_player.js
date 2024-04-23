@@ -22,7 +22,7 @@ let playInterval;
 let images = []; // Maintenant défini au niveau global
 let loadedImages = []; // Chargé une fois et accessible globalement
 let currentIndex = 0; // Index actuel accessible globalement
-let imagesLength; // Longueur des images accessible globalement
+let imagesLength; // Longueur des images accessibles globalement
 let isLoadingImage;
 
 function initializeSlideshow(userOptions = {}) {
@@ -160,31 +160,27 @@ function waitForElementsAndUpdateTimeline() {
 waitForElementsAndShowImage();
 waitForElementsAndUpdateTimeline();
 
-
 function showImage(index) {
     const imageDisplay = document.getElementById('imageDisplay');
     const loadingIndicator = document.getElementById('loadingIndicator') || createLoadingIndicator();
 
-    // Vérification si l'image à cet index est chargée
     if (loadedImages[index] && !loadedImages[index].complete) {
         loadingIndicator.style.display = 'block';
         loadedImages[index].onload = () => {
-            if (!imageDisplay.contains(loadedImages[index])) {
-                imageDisplay.innerHTML = ''; // Nettoie l'image précédente
-                imageDisplay.appendChild(loadedImages[index]);
-            }
+            imageDisplay.innerHTML = ''; // Nettoie l'image précédente
+            imageDisplay.appendChild(loadedImages[index]);
             loadingIndicator.style.display = 'none';
+            updateTimeline(); // Mise à jour de la timeline après chargement de l'image
         };
     } else if (loadedImages[index] && loadedImages[index].complete) {
         imageDisplay.innerHTML = ''; // Nettoie l'image précédente
         imageDisplay.appendChild(loadedImages[index]);
+        updateTimeline(); // Mise à jour de la timeline immédiatement si l'image est déjà chargée
     } else {
-        // Gestion des cas où l'image n'est pas trouvée ou n'est pas chargée
         console.error('Image non chargée ou introuvable à l\'index:', index);
         loadingIndicator.style.display = 'none';
     }
 }
-
 
 function createLoadingIndicator() {
     const loadingIndicator = document.createElement('div');
